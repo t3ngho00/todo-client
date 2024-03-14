@@ -1,0 +1,14 @@
+head {
+    top: 1em;
+    bottom: 1em;
+    left: 0em;
+    right: 0em;
+}
+
+h3 {
+    margin: 1em 0;
+}
+
+form {
+    margin-bottom: 1em;
+}
