@@ -4,7 +4,12 @@ head {
     left: 0em;
     right: 0em;
 }
-
+h1 {
+    color: blue;
+}
+h2 {
+    color: red;
+}
 h3 {
     margin: 1em 0;
 }
