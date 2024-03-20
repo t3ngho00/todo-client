@@ -1,5 +1,9 @@
 // ./js/class/Todos.js
+//import { resolve } from "path";
 import { Task } from "./Task.js";
+//import { rejects } from "assert";
+//import { response } from "express";
+//import { error } from "console";
 
 class Todos {
     #tasks = [];
@@ -42,6 +46,21 @@ class Todos {
         });
     };
 
+    removeTask = (id) => {
+        return new Promise(async(resolve, reject) => {
+            fetch(this.#backend_url + '/delete/' + id,{
+                method: 'delete'
+            })
+            .then((response) => response.json())
+            .then((json) => {
+                this.#removeFromArray(id)
+                resolve(json.id)
+            },(error) => {
+                reject(error)
+            })
+        })
+    }
+
     #readJson = (tasksArray) => {
         tasksArray.forEach(taskData => {
             const task = new Task(taskData.id, taskData.description)
@@ -53,6 +72,11 @@ class Todos {
         const task = new Task(id, text);
         this.#tasks.push(task);
         return task;
+    }
+
+    #removeFromArray = (id) => {
+        const arrayWithoutRemoved = this.#tasks.filter(task => task.id !== id);
+        this.#tasks = arrayWithoutRemoved;
     }
 }
 

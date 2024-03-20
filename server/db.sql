@@ -3,7 +3,7 @@ create database todo;
 use todo;
 
 create table task (
-    id SERIAL primary key auto_increment,
+    id SERIAL primary key,
     description varchar(255) not null
 );
 
