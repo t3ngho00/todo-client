@@ -1,3 +1,5 @@
+// Task 1
+
 document.addEventListener("DOMContentLoaded", function () {
     // Get references to UI elements
     const todoInput = document.getElementById("todoInput");

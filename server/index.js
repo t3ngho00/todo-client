@@ -1,3 +1,4 @@
+// Task 2: Creating backend
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
@@ -30,7 +31,7 @@ app.get("/", (req , res) => {
 });
 
 app.post("/new", (req, res) => {
-    //const pool = openDb ();
+    const pool = openDb ();
     pool.query('INSERT INTO task (description) VALUES ($1) RETURNING *',
         [req.body.description],
         (error, result) => {
