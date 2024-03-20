@@ -1,38 +1,59 @@
-import { resolve } from "path";
+// ./js/class/Todos.js
 import { Task } from "./Task.js";
-import { response } from "express";
 
 class Todos {
     #tasks = [];
-    #backend_ulr = '';
+    #backend_url = '';
 
     constructor(url) {
-        this.#backend_ulr = ulr;
+        this.#backend_url = url;
     }
 
     getTasks = () => {
         return new Promise(async(resolve, reject) => {
-            fetch(this.#backend_ulr);
-            .then((response) => response.json());
-            .then((json) => {
-                this.#readJson(json);
+            try {
+                const response = await fetch(this.#backend_url);
+                const tasks = await response.json();
+                this.#readJson(tasks);
                 resolve(this.#tasks);
-            }, (error) => {
-                reject(error);
-            });
+            } catch (error) {
+                reject("Error retrieving tasks: " + error.message);
+            }
         });
+    }
+
+    addTasks = (text) => {
+        return new Promise(async(resolve, reject) => {
+            try {
+                const json = JSON.stringify({ description: text });
+                const response = await fetch(this.#backend_url + '/new', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: json
+                });
+                const taskData = await response.json();
+                const task = this.#addToArray(taskData.id, text);
+                resolve(task);
+            } catch (error) {
+                reject("Error saving tasks: " + error.message);
+            }
+        });
+    };
+
+    #readJson = (tasksArray) => {
+        tasksArray.forEach(taskData => {
+            const task = new Task(taskData.id, taskData.description)
+            this.#tasks.push(task)
+        })
+    }
+
+    #addToArray = (id, text) => {
+        const task = new Task(id, text);
+        this.#tasks.push(task);
+        return task;
     }
 }
 
 export { Todos };
-
-const BACKEND_ROOT_URL = 'http://localhost:3001';
-import { Todos } from "./class.Todos.js";
-
-const todos = new Todos(BACKEND_ROOT_URL);
-
-const list = document.querySelector('ul');
-const input = document.querySelector('input');
-
-input.disabled = true;
-
