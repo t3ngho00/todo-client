@@ -1,36 +1,69 @@
-// Task 1
+import { Todos } from "./class/Todos.js";
 
 document.addEventListener("DOMContentLoaded", function () {
-    // Get references to UI elements
-    const todoInput = document.getElementById("todoInput");
-    const todoList = document.getElementById("todoList");
+    const BACKEND_ROOT_URL = 'http://localhost:3001';
+    const todos = new Todos(BACKEND_ROOT_URL);
+    const input = document.getElementById("todoInput");
+    const list = document.getElementById("todoList");
+    //input.disabled = true;
+    
+    const renderSpan = (li, text) => {
+        const span = li.appendChild(document.createElement('span'));
+        span.innerHTML = text;
+    };
+    
+    const renderLink = (li, id) => {
+        const a = li.appendChild(document.createElement('a'));
+        a.innerHTML = '<i class="bi bi-trash"></i>';
+        a.setAttribute('style','float: right');
+        a.setAttribute('data-id', id); // Add ID attribute to link
+        // Add event listener to handle delete task action
+        a.addEventListener('click', async (event) => {
+            const taskId = event.target.getAttribute('data-id');
+            try {
+                await todos.removeTask(taskId);
+                li.remove(); // Remove the task from UI on successful deletion
+            } catch (error) {
+                alert(error);
+            }
+        });
+    };
 
-    // Check if UI elements are found
-    if (!todoInput || !todoList) {
-        console.error("UI elements not found");
-        return;
-    }
+    const renderTask = (task) => {
+        const li = document.createElement("li");
+        li.classList.add("list-group-item");
+        //li.innerText = task.getText();
+        li.setAttribute('data-key', task.getId().toString());
+        renderSpan(li, task.getText());
+        renderLink(li, task.getId());
+        list.appendChild(li);
+    };
 
-    // Add event listener for input field
-    todoInput.addEventListener("keypress", function (event) {
+    const getTasks = () => {
+        todos.getTasks().then((tasks) => {
+            tasks.forEach(task => {
+                renderTask(task)
+            })
+        }).catch((error) => {
+            alert(error)
+        })
+    };
+
+    input.addEventListener("keypress", async function (event) {
         if (event.key === "Enter") {
-            const todoText = todoInput.value.trim(); // Get the input text and remove leading/trailing spaces
-            if (todoText !== "") {
-                const listItem = document.createElement("li"); // Create a new list item
-                listItem.classList.add("list-group-item");
-                listItem.innerText = todoText;
-
-                todoList.appendChild(listItem); // Append the new list item to the todo list
-
-                todoInput.value = ""; // Clear the input field
-
-                console.log("New todo added:", todoText); // Log the added todo
-            } else {
-                console.warn("Empty todo input"); // Log a warning if the input is empty
+            event.preventDefault();
+            const task = input.value.trim();
+            if (task !== "") {
+                todos.addTasks(task).then((task) => {
+                    renderTask(task);
+                    input.value = "";
+                    input.focus();    
+                }).catch((error) => {
+                    alert(error);
+                }); 
             }
         }
     });
 
-    console.log("Script initialized successfully");
+    getTasks();
 });
-
