@@ -1,12 +1,8 @@
-// Task 2: Creating backend
-// Task 5: Create delete method, that receives id as query parameter (e.g., http://localhost:3001/delete/1).
 // Task 6: Creating a separate module for managing database connection and executing query
 
 require('dotenv').config();
-//console.log(process.env);
 const express = require('express');
 const cors = require('cors');
-//const { Pool } = require('pg');
 const { query } = require('./helpers/db.js');
 
 const app = express();
