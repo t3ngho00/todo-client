@@ -1,9 +1,4 @@
-// ./js/class/Todos.js
-//import { resolve } from "path";
 import { Task } from "./Task.js";
-//import { rejects } from "assert";
-//import { response } from "express";
-//import { error } from "console";
 
 class Todos {
     #tasks = [];

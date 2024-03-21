@@ -5,8 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const todos = new Todos(BACKEND_ROOT_URL);
     const input = document.getElementById("todoInput");
     const list = document.getElementById("todoList");
-    //input.disabled = true;
-    
+        
     const renderSpan = (li, text) => {
         const span = li.appendChild(document.createElement('span'));
         span.innerHTML = text;
@@ -32,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const renderTask = (task) => {
         const li = document.createElement("li");
         li.classList.add("list-group-item");
-        //li.innerText = task.getText();
         li.setAttribute('data-key', task.getId().toString());
         renderSpan(li, task.getText());
         renderLink(li, task.getId());
