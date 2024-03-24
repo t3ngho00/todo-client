@@ -1,0 +1,12 @@
+node_modules
+client.rest
+test.js
+Task2_backend.js
+Task5_backend.js
+Task6_backend.js
+Task7_backend.js
+.env*
+.flaskenv*
+!.env.project
+!.env.vaultgit
+!.env.vault
