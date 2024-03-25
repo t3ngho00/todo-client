@@ -2,7 +2,7 @@ import { Todos } from "./class/Todos.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     //const BACKEND_ROOT_URL = 'http://localhost:3001';
-    const BACKEND_ROOT_URL = 'https://server-8yd0.onrender.com';
+    const BACKEND_ROOT_URL = 'https://new-server-tb4c.onrender.com/';
     const todos = new Todos(BACKEND_ROOT_URL);
     const input = document.getElementById("todoInput");
     const list = document.getElementById("todoList");
